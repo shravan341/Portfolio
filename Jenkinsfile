@@ -2,7 +2,11 @@ pipeline {
     agent any
     
     tools {
-        nodejs 'NodeJS' // Must match Jenkins Node.js installation name
+        nodejs 'NodeJS' // Must match your Jenkins Node.js installation name
+    }
+    
+    environment {
+        VERCEL_TOKEN = credentials('qTRC5jxwgNP3xrilCLc0VUpd') // Make sure this credential exists in Jenkins
     }
     
     stages {
@@ -19,12 +23,18 @@ pipeline {
         }
         
         stage('Deploy') {
-            environment {
-                VERCEL_TOKEN = credentials('qTRC5jxwgNP3xrilCLc0VUpd') // Matches the credential ID you created
-            }
             steps {
-                sh 'npm install -g vercel'
-                sh 'vercel --prod --token=$VERCEL_TOKEN'
+                script {
+                    // Install Vercel CLI if not already present
+                    sh 'npm install -g vercel@latest'
+                    
+                    // Deploy to Vercel
+                    sh """
+                        vercel --prod --token=$VERCEL_TOKEN \
+                        --yes \
+                        --confirm
+                    """
+                }
             }
         }
     }
@@ -42,4 +52,5 @@ pipeline {
         }
     }
 }
+
 
