@@ -1,35 +1,33 @@
 pipeline {
-    agent {
-        label 'master' // Explicitly specify agent label
-    }
-
+    agent any // Use any available agent
+    
     tools {
-        nodejs 'NodeJS' // Must match Jenkins Node.js installation
+        nodejs 'NodeJS' // Must match your Jenkins Node.js tool name
     }
-
+    
     environment {
         VERCEL_TOKEN = credentials('qTRC5jxwgNP3xrilCLc0VUpd')
     }
-
+    
     stages {
         stage('Checkout') {
             steps {
                 checkout scm
             }
         }
-
+        
         stage('Install') {
             steps {
                 sh 'npm install'
             }
         }
-
+        
         stage('Build') {
             steps {
-                sh 'npm run build'
+                sh 'CI=true npm run build' // Recommended for Next.js in CI
             }
         }
-
+        
         stage('Deploy') {
             steps {
                 script {
@@ -39,16 +37,16 @@ pipeline {
             }
         }
     }
-
+    
     post {
         always {
-            node('master') { // Provide explicit node context
-                echo "Cleaning workspace: ${env.WORKSPACE}"
-                cleanWs() // Now has proper context
-                echo 'Workspace cleanup complete'
+            script {
+                // Universal workspace cleanup
+                echo "Cleaning workspace at ${env.WORKSPACE}"
+                cleanWs(cleanWhenAborted: true, cleanWhenFailure: true, cleanWhenNotBuilt: true, cleanWhenUnstable: true)
+                echo 'Workspace cleanup completed'
             }
         }
     }
 }
-
 //qTRC5jxwgNP3xrilCLc0VUpd
