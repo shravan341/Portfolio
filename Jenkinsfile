@@ -6,33 +6,34 @@ pipeline {
     }
     
     environment {
-        VERCEL_TOKEN = credentials('qTRC5jxwgNP3xrilCLc0VUpd') // Make sure this credential exists in Jenkins
+        VERCEL_TOKEN = credentials('qTRC5jxwgNP3xrilCLc0VUpd') // Make sure this credential exists
     }
     
     stages {
-        stage('Install') {
+        stage('Install Dependencies') {
             steps {
                 sh 'npm install'
             }
         }
         
-        stage('Build') {
+        stage('Build Project') {
             steps {
                 sh 'npm run build'
             }
         }
         
-        stage('Deploy') {
+        stage('Deploy to Vercel') {
             steps {
                 script {
-                    // Install Vercel CLI if not already present
+                    // Install Vercel CLI globally
                     sh 'npm install -g vercel@latest'
                     
-                    // Deploy to Vercel
+                    // Deploy with explicit flags
                     sh """
-                        vercel --prod --token=$VERCEL_TOKEN \
-                        --yes \
-                        --confirm
+                        vercel deploy --prod \
+                        --token=$VERCEL_TOKEN \
+                        --confirm \
+                        --yes
                     """
                 }
             }
@@ -40,17 +41,23 @@ pipeline {
     }
     
     post {
-        failure {
-            echo 'Build failed! Check the console output for details.'
-            // Optional: Add email notification
-            // emailext body: 'Build failed! Check ${BUILD_URL}',
-            //     subject: 'Jenkins Build Failed',
-            //     to: 'your@email.com'
+        always {
+            echo 'Pipeline completed - cleaning workspace'
+            cleanWs() // Clean up workspace
         }
         success {
-            echo 'Build and deployment completed successfully!'
+            echo 'Build and deployment succeeded!'
+        }
+        failure {
+            echo 'Pipeline failed! Check logs for details.'
+            // Optional email notification:
+            // emailext body: 'Build failed: ${BUILD_URL}',
+            //     subject: 'Jenkins Build Failed',
+            //     to: 'your@email.com'
         }
     }
 }
 
 
+
+//qTRC5jxwgNP3xrilCLc0VUpd
