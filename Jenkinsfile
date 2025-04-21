@@ -38,15 +38,18 @@ pipeline {
     
     post {
         always {
-            node { // This provides the required context
-                cleanWs(
-                    cleanWhenAborted: true,
-                    cleanWhenFailure: true,
-                    cleanWhenSuccess: true,
-                    cleanWhenUnstable: true,
-                    deleteDirs: true
-                )
-                echo 'Workspace cleaned successfully'
+            script {
+                // Workspace cleanup with proper context
+                node('built-in') {  // Explicitly use built-in node
+                    cleanWs(
+                        cleanWhenAborted: true,
+                        cleanWhenFailure: true,
+                        cleanWhenSuccess: true,
+                        cleanWhenUnstable: true,
+                        deleteDirs: true
+                    )
+                    echo 'Workspace cleaned successfully'
+                }
             }
         }
     }
