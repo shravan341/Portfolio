@@ -1,51 +1,54 @@
 pipeline {
-    agent any
-    
-    tools {
-        nodejs 'NodeJS'
+    agent {
+        label 'master' // Explicitly specify agent label
     }
-    
+
+    tools {
+        nodejs 'NodeJS' // Must match Jenkins Node.js installation
+    }
+
     environment {
         VERCEL_TOKEN = credentials('qTRC5jxwgNP3xrilCLc0VUpd')
     }
-    
+
     stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
         stage('Install') {
             steps {
                 sh 'npm install'
             }
         }
-        
+
         stage('Build') {
             steps {
                 sh 'npm run build'
             }
         }
-        
+
         stage('Deploy') {
             steps {
-                sh 'npm install -g vercel@latest'
-                sh 'vercel deploy --prod --token=$VERCEL_TOKEN --confirm'
-            }
-        }
-    }
-    
-    post {
-        always {
-            script {
-                // Safe workspace cleanup
-                try {
-                    dir(env.WORKSPACE) {
-                        deleteDir()
-                    }
-                    echo 'Workspace cleaned successfully'
-                } catch(e) {
-                    echo "Cleanup warning: ${e.message}"
+                script {
+                    sh 'npm install -g vercel@latest'
+                    sh 'vercel deploy --prod --token=$VERCEL_TOKEN --confirm'
                 }
             }
         }
     }
-}
 
+    post {
+        always {
+            node('master') { // Provide explicit node context
+                echo "Cleaning workspace: ${env.WORKSPACE}"
+                cleanWs() // Now has proper context
+                echo 'Workspace cleanup complete'
+            }
+        }
+    }
+}
 
 //qTRC5jxwgNP3xrilCLc0VUpd
