@@ -1,0 +1,34 @@
+pipeline {
+    agent any
+    
+    tools {
+        nodejs 'NodeJS' // Name of your Node.js installation in Jenkins
+    }
+    
+    stages {
+        stage('Install') {
+            steps {
+                sh 'npm install'
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                sh 'npm run build'
+            }
+        }
+        
+        stage('Test') {
+            steps {
+                sh 'npm test' // If you have tests
+            }
+        }
+        
+        stage('Deploy') {
+            steps {
+                // Add your deployment steps here
+                // Could be SSH, FTP, or deployment to Vercel/Netlify
+            }
+        }
+    }
+}
