@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     tools {
-        nodejs 'NodeJS' // Must match exactly your Jenkins Node.js installation
+        nodejs 'NodeJS'
     }
     
     environment {
@@ -10,12 +10,6 @@ pipeline {
     }
     
     stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-        
         stage('Install') {
             steps {
                 sh 'npm install'
@@ -30,10 +24,8 @@ pipeline {
         
         stage('Deploy') {
             steps {
-                script {
-                    sh 'npm install -g vercel@latest'
-                    sh 'vercel deploy --prod --token=$VERCEL_TOKEN --confirm'
-                }
+                sh 'npm install -g vercel@latest'
+                sh 'vercel deploy --prod --token=$VERCEL_TOKEN --confirm'
             }
         }
     }
@@ -41,18 +33,16 @@ pipeline {
     post {
         always {
             script {
-                // Safe workspace cleanup with proper context
-                node('built-in') {
-                    cleanWs()
+                // Safe workspace cleanup
+                try {
+                    dir(env.WORKSPACE) {
+                        deleteDir()
+                    }
                     echo 'Workspace cleaned successfully'
+                } catch(e) {
+                    echo "Cleanup warning: ${e.message}"
                 }
             }
-        }
-        success {
-            echo 'Pipeline succeeded!'
-        }
-        failure {
-            echo 'Pipeline failed! Check logs for details.'
         }
     }
 }
