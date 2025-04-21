@@ -6,7 +6,7 @@ pipeline {
     }
     
     environment {
-        VERCEL_TOKEN = credentials('qTRC5jxwgNP3xrilCLc0VUpd') // Make sure this credential exists
+        VERCEL_TOKEN = credentials('qTRC5jxwgNP3xrilCLc0VUpd')
     }
     
     stages {
@@ -25,16 +25,8 @@ pipeline {
         stage('Deploy to Vercel') {
             steps {
                 script {
-                    // Install Vercel CLI globally
                     sh 'npm install -g vercel@latest'
-                    
-                    // Deploy with explicit flags
-                    sh """
-                        vercel deploy --prod \
-                        --token=$VERCEL_TOKEN \
-                        --confirm \
-                        --yes
-                    """
+                    sh 'vercel deploy --prod --token=$VERCEL_TOKEN --confirm --yes'
                 }
             }
         }
@@ -43,17 +35,13 @@ pipeline {
     post {
         always {
             echo 'Pipeline completed - cleaning workspace'
-            cleanWs() // Clean up workspace
+            cleanWs() // This must be inside a node{} block
         }
         success {
             echo 'Build and deployment succeeded!'
         }
         failure {
             echo 'Pipeline failed! Check logs for details.'
-            // Optional email notification:
-            // emailext body: 'Build failed: ${BUILD_URL}',
-            //     subject: 'Jenkins Build Failed',
-            //     to: 'your@email.com'
         }
     }
 }
