@@ -6,7 +6,7 @@ pipeline {
     }
     
     environment {
-        VERCEL_TOKEN = credentials('qTRC5jxwgNP3xrilCLc0VUpd')
+        VERCEL_TOKEN = credentials('jOqewTPdcVGQgL6GR4TiQEeA')
     }
     
     stages {
@@ -55,4 +55,4 @@ pipeline {
     }
 }
 
-//qTRC5jxwgNP3xrilCLc0VUpd
+//jOqewTPdcVGQgL6GR4TiQEeA
