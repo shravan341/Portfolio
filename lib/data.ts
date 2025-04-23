@@ -64,23 +64,23 @@ export const experiencesData = [
 
 export const projectsData = [
   {
-    title: "CorpComment",
+    title: "Hotel Booking",
     description:
-      "I worked as a full-stack developer on this startup project for 2 years. Users can give public feedback to companies.",
-    tags: ["React", "Next.js", "MongoDB", "Tailwind", "Prisma"],
+      "I've developed a MERN stack application that helps users find hotels based on their budget, with a fully responsive design.",
+    tags: ["React", "Express", "MongoDB", "Tailwind", "Prisma"],
     imageUrl: corpcommentImg,
   },
   {
-    title: "rmtDev",
+    title: "Student Management System",
     description:
-      "Job board for remote developer jobs. I was the front-end developer. It has features like filtering, sorting and pagination.",
+      "I've made a MERN stack application for teachers to manage student data, mark attendance at scheduled times, and conduct subject-specific quizzes.",
     tags: ["React", "TypeScript", "Next.js", "Tailwind", "Redux"],
     imageUrl: rmtdevImg,
   },
   {
-    title: "Word Analytics",
+    title: "Task Management ",
     description:
-      "A public web app for quick analytics on text. It shows word count, character count and social media post limits.",
+      "I developed a real-time task management application using the MERN stack that allows users to schedule, track, and perform CRUD operations on their tasks.",
     tags: ["React", "Next.js", "SQL", "Tailwind", "Framer"],
     imageUrl: wordanalyticsImg,
   },
