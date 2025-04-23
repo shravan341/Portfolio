@@ -1,58 +1,20 @@
 pipeline {
     agent any
-    
-    tools {
-        nodejs 'NodeJS' // Must match your Jenkins Node.js installation name
-    }
-    
-    environment {
-        VERCEL_TOKEN = credentials('jOqewTPdcVGQgL6GR4TiQEeA')
-    }
-    
+    tools {nodejs "NODEJS"}
     stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-        
-        stage('Install') {
+        stage('Build') {
             steps {
                 sh 'npm install'
             }
         }
-        
-        stage('Build') {
+        stage('Deliver') {
             steps {
-                sh 'CI=true npm run build'
-            }
-        }
-        
-        stage('Deploy') {
-            steps {
-                sh 'npm install -g vercel@latest'
-                sh 'vercel deploy --prod --token=$VERCEL_TOKEN --confirm'
-            }
-        }
-    }
-    
-    post {
-        always {
-            script {
-                // Workspace cleanup with proper context
-                node('built-in') {  // Explicitly use built-in node
-                    cleanWs(
-                        cleanWhenAborted: true,
-                        cleanWhenFailure: true,
-                        cleanWhenSuccess: true,
-                        cleanWhenUnstable: true,
-                        deleteDirs: true
-                    )
-                    echo 'Workspace cleaned successfully'
-                }
+                sh 'chmod -R +rwx ./jenkins/scripts/deliver.sh'
+                sh 'chmod -R +rwx ./jenkins/scripts/kill.sh'
+                sh './jenkins/scripts/deliver.sh'
+                input message: 'Finished using the web site? (Click "Proceed" to continue)'
+                sh './jenkins/scripts/kill.sh'
             }
         }
     }
 }
-
-//jOqewTPdcVGQgL6GR4TiQEeA
