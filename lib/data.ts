@@ -69,6 +69,7 @@ export const projectsData = [
       "I've developed a MERN stack application that helps users find hotels based on their budget, with a fully responsive design.",
     tags: ["React", "Express", "MongoDB", "Tailwind", "Prisma"],
     imageUrl: corpcommentImg,
+    url: "https://hotel-booking56988.vercel.app/",
   },
   {
     title: "Student Management System",
@@ -76,6 +77,7 @@ export const projectsData = [
       "I've made a MERN stack application for teachers to manage student data, mark attendance at scheduled times, and conduct subject-specific quizzes.",
     tags: ["React", "TypeScript", "Next.js", "Tailwind", "Redux"],
     imageUrl: rmtdevImg,
+    url: "https://hotel-booking56988.vercel.app/",
   },
   {
     title: "Task Management ",
@@ -83,6 +85,7 @@ export const projectsData = [
       "I developed a real-time task management application using the MERN stack that allows users to schedule, track, and perform CRUD operations on their tasks.",
     tags: ["React", "Next.js", "SQL", "Tailwind", "Framer"],
     imageUrl: wordanalyticsImg,
+    url: "https://hotel-booking56988.vercel.app/",
   },
 ] as const;
 

@@ -16,6 +16,18 @@ export default function Projects() {
         {projectsData.map((project, index) => (
           <React.Fragment key={index}>
             <Project {...project} />
+            {project.url && (
+              <div className="mt-4">
+                <a
+                  href={project.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block my-5 px-6 py-2 bg-slate-600 text-white font-semibold rounded hover:bg-blue-700 transition-colors duration-300"
+                >
+                  View Live Demo
+                </a>
+              </div>
+            )}
           </React.Fragment>
         ))}
       </div>
