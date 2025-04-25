@@ -23,6 +23,10 @@ export const links = [
     name: "Skills",
     hash: "#skills",
   },
+  {
+    name: "Education",
+    hash: "#Education",
+  },
 
   {
     name: "Certificates",
@@ -77,7 +81,7 @@ export const projectsData = [
       "I've made a MERN stack application for teachers to manage student data, mark attendance at scheduled times, and conduct subject-specific quizzes.",
     tags: ["React", "TypeScript", "Next.js", "Tailwind", "Redux"],
     imageUrl: rmtdevImg,
-    url: "https://hotel-booking56988.vercel.app/",
+    url: "https://github.com/shravan341/Student-management-system",
   },
   {
     title: "Task Management ",
@@ -85,9 +89,32 @@ export const projectsData = [
       "I developed a real-time task management application using the MERN stack that allows users to schedule, track, and perform CRUD operations on their tasks.",
     tags: ["React", "Next.js", "SQL", "Tailwind", "Framer"],
     imageUrl: wordanalyticsImg,
-    url: "https://hotel-booking56988.vercel.app/",
+    url: "https://github.com/shravan341/Cipher_Project_fullStack",
   },
 ] as const;
+
+
+export const educationData = [
+  {
+    title: "B-Tech in Computer Science and Engineeering",
+    institution: "Lovely Professional Universiry",
+    date: "2022-2026",
+    description: "Specialization: Full Stack We devlopmen",
+  //   icon: <YourIconComponent />, // Replace with a valid icon
+  },
+  {
+    title: "High School",
+    institution: "Army Publi School",
+    date: "2020-2021",
+    
+  },
+  {
+    title: "Matriculation;",
+    institution: "Army Publi School",
+    date: "2018-2019",
+  }
+  // Add more education entries...
+];
 
 export const skillsData = [
   "HTML",

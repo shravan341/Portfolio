@@ -31,7 +31,7 @@ export default function Intro() {
             }}
           >
             <Image
-              src="/images/pic.jpg"  // Note the leading slash
+              src="/images/dp.jpeg"  // Note the leading slash
               alt="Shravan portrait"
               width="192"
               height="192"
